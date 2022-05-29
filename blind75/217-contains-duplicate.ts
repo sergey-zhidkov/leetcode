@@ -12,3 +12,14 @@
 //     1 <= nums.length <= 105
 //     -109 <= nums[i] <= 109
 
+function containsDuplicate(nums: number[]): boolean {
+    const set = new Set()
+    for (const singleNum of nums) {
+        if (set.has(singleNum)) {
+            return true
+        }
+        set.add(singleNum)
+    }
+
+    return false
+}

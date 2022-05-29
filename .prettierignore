@@ -1,0 +1,27 @@
+# generated or imported files
+package-deps.json
+CHANGELOG.*
+fabric-icons-*
+version.ts
+dndSim.js
+monaco-typescript.d.ts
+*.api.md
+api-report.md
+*.scss.ts
+_*.scss
+
+# folders of generated files
+lib
+lib-amd
+lib-esm
+lib-commonjs
+dist
+node_modules
+common/changes
+common/scripts
+coverage
+etc
+change
+
+# package specific files
+packages/web-components/**/*.spec.ts

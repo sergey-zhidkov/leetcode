@@ -31,6 +31,7 @@ function groupAnagrams(strs: string[]): string[][] {
     const mapSortedToAnagrams = new Map<string, string[]>()
 
     for (const singleStr of strs) {
+        // Hashing will make it
         const sortedStr = Array.from(singleStr).sort().join()
         const anagrams = mapSortedToAnagrams.get(sortedStr) ?? []
         anagrams.push(singleStr)

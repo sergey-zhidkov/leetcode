@@ -29,6 +29,7 @@ function topKFrequent(nums: number[], k: number): number[] {
         numToFrequencyMap.set(singleNum, frequency + 1)
     }
 
+    // Can be replaced with a bucket sort and bring it to O(n)
     const array = Array.from(numToFrequencyMap)
     array.sort((a, b) => {
         if (a[1] < b[1]) {

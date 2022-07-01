@@ -18,6 +18,7 @@
 //     0 <= nums.length <= 105
 //     -109 <= nums[i] <= 109
 
+// Can be solved with union find or Set as well
 function longestConsecutive(nums: number[]): number {
     if (!nums?.length) {
         return 0

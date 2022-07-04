@@ -29,31 +29,52 @@ function twoSum(numbers: number[], target: number): number[] {
         return []
     }
 
-    for (let i = 0; i < numbers.length; i++) {
-        const leftNum = numbers[i]
-        const searchableNum = target - leftNum
-        const searchableNumIndex = binarySeach(searchableNum, numbers, i + 1, numbers.length - 1)
-        if (searchableNumIndex >= 0) {
-            return [i + 1, searchableNumIndex + 1]
+    let leftPointer = 0
+    let rightPointer = numbers.length - 1
+    while (leftPointer < rightPointer) {
+        if (numbers[leftPointer] + numbers[rightPointer] === target) {
+            return [leftPointer + 1, rightPointer + 1]
         }
-    }
-
-    return []
-
-    function binarySeach(targetNum: number, arr: number[], leftIndex: number, rightIndex: number): number {
-        if (leftIndex === rightIndex) {
-            return arr[leftIndex] === targetNum ? leftIndex : -1
-        }
-
-        const midIndex = leftIndex + Math.floor((rightIndex - leftIndex) / 2)
-        const value = arr[midIndex]
-        if (value === targetNum) {
-            return midIndex
-        }
-        if (value < targetNum) {
-            return binarySeach(targetNum, arr, midIndex + 1, rightIndex)
+        if (numbers[leftPointer] + numbers[rightPointer] < target) {
+            leftPointer++
         } else {
-            return binarySeach(targetNum, arr, leftIndex, midIndex - 1)
+            rightPointer--
         }
     }
+    return []
 }
+
+// O(NlgN)
+// function twoSum(numbers: number[], target: number): number[] {
+//     if (!numbers?.length || numbers.length < 2) {
+//         return []
+//     }
+
+//     for (let i = 0; i < numbers.length; i++) {
+//         const leftNum = numbers[i]
+//         const searchableNum = target - leftNum
+//         const searchableNumIndex = binarySeach(searchableNum, numbers, i + 1, numbers.length - 1)
+//         if (searchableNumIndex >= 0) {
+//             return [i + 1, searchableNumIndex + 1]
+//         }
+//     }
+
+//     return []
+
+//     function binarySeach(targetNum: number, arr: number[], leftIndex: number, rightIndex: number): number {
+//         if (leftIndex === rightIndex) {
+//             return arr[leftIndex] === targetNum ? leftIndex : -1
+//         }
+
+//         const midIndex = leftIndex + Math.floor((rightIndex - leftIndex) / 2)
+//         const value = arr[midIndex]
+//         if (value === targetNum) {
+//             return midIndex
+//         }
+//         if (value < targetNum) {
+//             return binarySeach(targetNum, arr, midIndex + 1, rightIndex)
+//         } else {
+//             return binarySeach(targetNum, arr, leftIndex, midIndex - 1)
+//         }
+//     }
+// }

@@ -28,7 +28,7 @@ function threeSum(nums: number[]): number[][] {
     // Two pointers solution
     for (let i = 0; i < nums.length - 2; i++) {
         const num1 = nums[i]
-        if (nums[i + 1] === num1) {
+        if (nums[i - 1] === num1) {
             continue
         }
 

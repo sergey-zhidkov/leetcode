@@ -36,6 +36,7 @@ function characterReplacement(s: string, k: number): number {
             const howManyTimesSeenLeftChar = mapCharToCount.get(s[leftPointer]) as number
             mapCharToCount.set(s[leftPointer], howManyTimesSeenLeftChar - 1)
             leftPointer++
+            // Can do it faster?
             mostCommonCharCount = Math.max(...mapCharToCount.values())
         }
         longest = Math.max(longest, rightPointer - leftPointer + 1)

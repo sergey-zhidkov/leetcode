@@ -15,20 +15,33 @@
 //     1 <= n <= 8
 
 function generateParenthesis(n: number): string[] {
-    const res: string[] = []
-
-    const go = (l, r, s) => {
-        if (l > r) return
-
-        if (l === 0 && r === 0) {
-            res.push(s)
-            return
-        }
-
-        if (l > 0) go(l - 1, r, s + '(')
-        if (r > 0) go(l, r - 1, s + ')')
+    if (n <= 0) {
+        return []
     }
 
-    go(n, n, '')
-    return res
+    const dfs = (open: number, close: number, state: string): void => {
+        if (open === 0 && close === 0) {
+            // console.log("exit >>>", state)
+            result.push(state)
+            return
+        }
+        if (open > 0) {
+            // state += '('
+            // open--
+            // console.log("enter open >>>", state, open, close)
+            dfs(open - 1, close, state + '(')
+        }
+
+        if (close > 0 && close > open) {
+            // state += ')'
+            // close--
+            // console.log("enter close >>>", state, open, close)
+            dfs(open, close - 1, state + ')')
+        }
+    }
+
+    const result: string[] = []
+    dfs(n, n, '')
+
+    return result
 }

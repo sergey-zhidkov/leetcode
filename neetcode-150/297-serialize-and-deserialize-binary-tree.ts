@@ -34,21 +34,19 @@ function serialize(root: TreeNode | null): string {
         return ''
     }
 
-    const preorder: number[] = []
-    const inorder: number[] = []
-    dfs(root, preorder, inorder)
+    const result = dfs(root, [])
+    return result.join(',')
 
-    return preorder.join(',') + '#' + inorder.join(',')
-
-    function dfs(node: TreeNode | null, preorder: number[], inorder: number[]): void {
+    function dfs(node: TreeNode | null, acc: string[]): string[] {
         if (!node) {
-            return
+            acc.push('n') // null
+            return acc
         }
 
-        preorder.push(node.val)
-        dfs(node.left, preorder, inorder)
-        inorder.push(node.val)
-        dfs(node.right, preorder, inorder)
+        acc.push(node.val.toString())
+        dfs(node.left, acc)
+        dfs(node.right, acc)
+        return acc
     }
 }
 
@@ -60,23 +58,22 @@ function deserialize(data: string): TreeNode | null {
         return null
     }
 
-    const chunks = data.split('#')
-    const preorder = chunks[0].split(',').map((char) => parseInt(char, 10))
-    const inorder = chunks[1].split(',').map((char) => parseInt(char, 10))
+    const array = data.split(',')
+    return buildTree(array)
 
-    return buildTree(preorder, inorder)
-
-    function buildTree(preorder: number[], inorder: number[]): TreeNode | null {
-        if (!preorder.length || !inorder.length) {
+    function buildTree(array: string[]): TreeNode | null {
+        if (!array.length) {
             return null
         }
 
-        const rootVal = preorder.shift()!
-        const root = new TreeNode(rootVal)
+        const rootVal = array.shift()!
+        if (rootVal === 'n') {
+            return null
+        }
 
-        const rootIndexInInorder = inorder.lastIndexOf(rootVal)
-        root.left = buildTree(preorder, inorder.slice(0, rootIndexInInorder))
-        root.right = buildTree(preorder, inorder.slice(rootIndexInInorder + 1))
+        const root = new TreeNode(parseInt(rootVal, 10))
+        root.left = buildTree(array)
+        root.right = buildTree(array)
 
         return root
     }

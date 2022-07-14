@@ -33,7 +33,7 @@ function hammingWeight(n: number): number {
         if (n & 1) {
             result++
         }
-        n = n >> 1
+        n = n >>> 1
     }
     return result
 }

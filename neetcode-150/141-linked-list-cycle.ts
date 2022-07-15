@@ -37,21 +37,21 @@ function hasCycle(head: ListNode | null): boolean {
         return false
     }
 
-    let pointer1: ListNode | null = head
-    let pointer2: ListNode | null = head
-    while (pointer2) {
-        pointer2 = pointer2.next
-        if (pointer2 === pointer1) {
+    let slow: ListNode | null = head
+    let fast: ListNode | null = head
+    while (fast) {
+        fast = fast.next
+        if (fast === slow) {
             return true
         }
-        if (!pointer2) {
+        if (!fast) {
             break
         }
-        pointer2 = pointer2.next
-        if (pointer2 === pointer1) {
+        fast = fast.next
+        if (fast === slow) {
             return true
         }
-        pointer1 = pointer1!.next
+        slow = slow!.next
     }
 
     return false

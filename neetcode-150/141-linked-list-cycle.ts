@@ -1,26 +1,22 @@
-// Given head, the head of a linked list, determine if the linked list has a cycle in it.
+// You are given the head of a singly linked-list. The list can be represented as:
 
-// There is a cycle in a linked list if there is some node in the list that can be reached again by continuously following the next pointer. Internally, pos is used to denote the index of the node that tail's next pointer is connected to. Note that pos is not passed as a parameter.
+// L0 → L1 → … → Ln - 1 → Ln
 
-// Return true if there is a cycle in the linked list. Otherwise, return false.
+// Reorder the list to be on the following form:
+
+// L0 → Ln → L1 → Ln - 1 → L2 → Ln - 2 → …
+
+// You may not modify the values in the list's nodes. Only nodes themselves may be changed.
 
 // Example 1:
 
-// Input: head = [3,2,0,-4], pos = 1
-// Output: true
-// Explanation: There is a cycle in the linked list, where the tail connects to the 1st node (0-indexed).
+// Input: head = [1,2,3,4]
+// Output: [1,4,2,3]
 
 // Example 2:
 
-// Input: head = [1,2], pos = 0
-// Output: true
-// Explanation: There is a cycle in the linked list, where the tail connects to the 0th node.
-
-// Example 3:
-
-// Input: head = [1], pos = -1
-// Output: false
-// Explanation: There is no cycle in the linked list.
+// Input: head = [1,2,3,4,5]
+// Output: [1,5,2,4,3]
 
 // Definition for singly-linked list.
 class ListNode {
@@ -32,27 +28,44 @@ class ListNode {
     }
 }
 
-function hasCycle(head: ListNode | null): boolean {
+/**
+ Do not return anything, modify head in-place instead.
+ */
+function reorderList(head: ListNode | null): void {
     if (!head || !head.next) {
-        return false
+        return
     }
 
-    let slow: ListNode | null = head
-    let fast: ListNode | null = head
-    while (fast) {
-        fast = fast.next
-        if (fast === slow) {
-            return true
-        }
-        if (!fast) {
+    const temp = []
+
+    let cur = head
+    while (cur) {
+        temp.push(cur)
+        cur = cur.next
+    }
+
+    let i = 0
+    let j = temp.length - 1
+    let prevLast = null
+    while (true) {
+        const first = temp[i]
+        if (j - i <= 0) {
+            prevLast.next = first
+            first.next = null
             break
         }
-        fast = fast.next
-        if (fast === slow) {
-            return true
+        const last = temp[j]
+        if (prevLast) {
+            prevLast.next = first
         }
-        slow = slow!.next
-    }
 
-    return false
+        first.next = last
+        prevLast = last
+        if (j - i === 1) {
+            prevLast.next = null
+            break
+        }
+        i++
+        j--
+    }
 }

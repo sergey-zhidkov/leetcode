@@ -30,58 +30,58 @@
 //     word and prefix consist only of lowercase English letters.
 //     At most 3 * 104 calls in total will be made to insert, search, and startsWith.
 
-class Trie {
-    private rootNodes: { val?: number; children?: any }[]
-    private aIndex: number
+// class Trie {
+//     private rootNodes: { val?: number; children?: any }[]
+//     private aIndex: number
 
-    constructor() {
-        this.rootNodes = new Array(26)
-        this.aIndex = 'a'.charCodeAt(0)
-    }
+//     constructor() {
+//         this.rootNodes = new Array(26)
+//         this.aIndex = 'a'.charCodeAt(0)
+//     }
 
-    insert(word: string): void {
-        let i = 0
-        let nextLevel = this.rootNodes
-        while (i < word.length) {
-            const index = (word.codePointAt(i) as number) - this.aIndex
-            nextLevel[index] ??= {}
-            if (i === word.length - 1) {
-                nextLevel[index].val = word.length
-            } else {
-                nextLevel[index].children ??= new Array(26)
-                nextLevel = nextLevel[index].children
-            }
-            i++
-        }
-    }
+//     insert(word: string): void {
+//         let i = 0
+//         let nextLevel = this.rootNodes
+//         while (i < word.length) {
+//             const index = (word.codePointAt(i) as number) - this.aIndex
+//             nextLevel[index] ??= {}
+//             if (i === word.length - 1) {
+//                 nextLevel[index].val = word.length
+//             } else {
+//                 nextLevel[index].children ??= new Array(26)
+//                 nextLevel = nextLevel[index].children
+//             }
+//             i++
+//         }
+//     }
 
-    private searchWord(word: string): object | undefined {
-        let i = 0
-        let nextLevel = this.rootNodes
-        while (nextLevel && i < word.length) {
-            const index = (word.codePointAt(i) as number) - this.aIndex
-            if (!nextLevel[index]) {
-                return undefined
-            }
-            if (i === word.length - 1) {
-                return nextLevel[index]
-            }
-            nextLevel = nextLevel[index].children
-            i++
-        }
-        return undefined
-    }
+//     private searchWord(word: string): object | undefined {
+//         let i = 0
+//         let nextLevel = this.rootNodes
+//         while (nextLevel && i < word.length) {
+//             const index = (word.codePointAt(i) as number) - this.aIndex
+//             if (!nextLevel[index]) {
+//                 return undefined
+//             }
+//             if (i === word.length - 1) {
+//                 return nextLevel[index]
+//             }
+//             nextLevel = nextLevel[index].children
+//             i++
+//         }
+//         return undefined
+//     }
 
-    search(word: string): boolean {
-        const result = this.searchWord(word) as { val?: number }
-        return !!result?.val
-    }
+//     search(word: string): boolean {
+//         const result = this.searchWord(word) as { val?: number }
+//         return !!result?.val
+//     }
 
-    startsWith(prefix: string): boolean {
-        const result = this.searchWord(prefix)
-        return result !== undefined
-    }
-}
+//     startsWith(prefix: string): boolean {
+//         const result = this.searchWord(prefix)
+//         return result !== undefined
+//     }
+// }
 
 /**
  * Your Trie object will be instantiated and called as such:

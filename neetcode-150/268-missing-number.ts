@@ -31,11 +31,15 @@ function missingNumber(nums: number[]): number {
     }
 
     nums.sort((a, b) => a - b)
-    let result = nums[0]
+
+    if (nums[0] !== 0) {
+        return 0
+    }
+
     for (let i = 1; i < nums.length; i++) {
         if (nums[i] - nums[i - 1] > 1) {
             return nums[i] - 1
         }
     }
-    return result
+    return nums[nums.length - 1] + 1
 }

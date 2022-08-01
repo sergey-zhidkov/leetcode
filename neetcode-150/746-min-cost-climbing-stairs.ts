@@ -38,21 +38,19 @@ function minCostClimbingStairs(cost: number[]): number {
     if (cost.length == 1) {
         return cost[0]
     }
-    const memo = {}
 
-    return Math.min(minCost(cost, cost.length - 1, memo), minCost(cost, cost.length - 2, memo))
-}
+    if (cost.length == 2) {
+        return Math.min(cost[0], cost[1])
+    }
 
-function minCost(cost: number[], index: number, memo: object): number {
-    if (index < 0) {
-        return 0
+    let step1 = cost[0]
+    let step2 = cost[1]
+    let curStep = 0
+    for (let i = 2; i < cost.length; i++) {
+        curStep = Math.min(step1, step2) + cost[i]
+        step1 = step2
+        step2 = curStep
     }
-    if (memo[index] !== undefined) {
-        return memo[index]
-    }
-    if (index === 0 || index === 1) {
-        return cost[index]
-    }
-    memo[index] = cost[index] + Math.min(minCost(cost, cost.length - 1, memo), minCost(cost, cost.length - 2, memo))
-    return memo[index]
+
+    return Math.min(step1, step2)
 }

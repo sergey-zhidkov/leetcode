@@ -36,4 +36,89 @@
 // Output: "K4N2O14S4"
 // Explanation: The count of elements are {'K': 4, 'N': 2, 'O': 14, 'S': 4}.
 
-function countOfAtoms(formula: string): string {}
+function countOfAtoms(formula: string): string {
+    if (!formula) {
+        return ''
+    }
+
+    const stack: any[] = []
+    let curMap = new Map()
+    let i = 0
+    while (i < formula.length) {
+        // start new stack
+        if (formula[i] === '(') {
+            // save prev map
+            stack.push(curMap)
+            curMap = new Map()
+            i++
+        }
+        // get the value from stack and merge from the prev stack value
+        else if (formula[i] === ')') {
+            i++
+            // read digits after it
+            const [repeatTimes, newI] = readNextDigit(formula, i)
+            i = newI
+            // multiply all elements in curMap
+            for (const element of curMap.keys()) {
+                const times = curMap.get(element)
+                curMap.set(element, times * repeatTimes)
+            }
+
+            // merge curMap with prev map in the stack
+            const lastMap = stack.pop()
+            for (const el of curMap.keys()) {
+                const lastMapElTimes = lastMap.get(el) ?? 0
+                lastMap.set(el, curMap.get(el) + lastMapElTimes)
+            }
+            curMap = lastMap
+        }
+        // parse current level values
+        else {
+            const element = readNextElement(formula, i)
+            i += element.length
+            const [repeatTimes, newI] = readNextDigit(formula, i)
+            i = newI
+            const currentlyInMap = curMap.get(element) ?? 0
+            curMap.set(element, currentlyInMap + repeatTimes)
+        }
+    }
+
+    const elements = Array.from(curMap.keys())
+    elements.sort()
+
+    let result = ''
+    for (const singleElement of elements) {
+        const times = curMap.get(singleElement)
+        result += singleElement + (times === 1 ? '' : times)
+    }
+
+    return result
+}
+
+function readNextElement(formula: string, i: number) {
+    // UpperCase
+    let element = formula[i++]
+    while (isLowerCase(formula[i])) {
+        element += formula[i]
+        i++
+    }
+    return element
+}
+
+function readNextDigit(formula: string, i: number) {
+    // UpperCase
+    let result = ''
+    while (isDigit(formula[i])) {
+        result += formula[i]
+        i++
+    }
+    return [result ? parseInt(result) : 1, i]
+}
+
+function isLowerCase(character: string) {
+    return character >= 'a' && character <= 'z'
+}
+
+function isDigit(character: string) {
+    return character >= '0' && character <= '9'
+}
